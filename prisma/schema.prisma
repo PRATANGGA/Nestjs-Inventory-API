@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admins{
+  id Int @id @default(autoincrement())
+  username String @db.VarChar(100)
+  password String @db.VarChar(100)
+  email String @db.VarChar(100)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categories Category[]
+  suppliers  Suppliers[]
+  items      Items[]
+
+}
+model Category{
+  id          Int      @id @default(autoincrement())
+  name        String   @unique @db.VarChar(100)
+  description String?
+  createdBy   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+   createdByAdmin Admins   @relation(fields: [createdBy], references: [id])
+  items          Items[]
+}
+
+model Suppliers{
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(100)
+  contactInfo String?  @db.VarChar(100)
+  createdBy   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  createdByAdmin Admins   @relation(fields: [createdBy], references: [id])
+  items          Items[]
+}
+
+model Items{
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(100)
+  description String?
+  price       Decimal  @db.Decimal(10, 2)
+  quantity    Int
+  categoryId  Int
+  supplierId  Int
+  createdBy   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id])
+  supplier    Suppliers @relation(fields: [supplierId], references: [id])
+  createdByAdmin Admins @relation(fields: [createdBy], references: [id])
+}
