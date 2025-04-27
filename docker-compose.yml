@@ -1,14 +1,31 @@
 version: '3.9'
+
 services:
   db-nest:
     image: postgres:13
-    ports:
-      - 5436:5432
+    container_name: db-nest
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: nest
+    ports:
+      - 5436:5432
     networks:
-      - networks_postsgres
+      - app-network
+
+  app:
+    build: .
+    container_name: nest-app
+    ports:
+      - 3333:3000
+    depends_on:
+      - db-nest
+    environment:
+      DATABASE_URL: 'postgresql://postgres:123@db-nest:5432/nest?schema=public'
+    networks:
+      - app-network
+    command: sh -c "yarn prisma migrate deploy && yarn start:prod"
+
 networks:
-  networks_postsgres:
+  app-network:
+    driver: bridge

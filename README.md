@@ -57,42 +57,320 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
-## Deployment
+# Item API Spec
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Create Item
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+**Endpoint** : POST `/item`
 
-```bash
-$ yarn install -g @nestjs/mau
-$ mau deploy
+**Request Body** :
+
+```json
+{
+  "name": "iPhone 15 Pro",
+  "description": "Latest iPhone",
+  "price": 25000000,
+  "quantity": 10,
+  "categoryId": 1,
+  "supplierId": 1,
+  "createdBy": 1
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+**Response Body**
 
-## Resources
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "iPhone 15 Pro",
+    "description": "Latest iPhone",
+    "price": 25000000,
+    "quantity": 10,
+    "categoryId": 1,
+    "supplierId": 1,
+    "createdBy": 1
+  }
+}
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## Get Item By Id
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+**Endpoint** : GET `/item/:id`
+**Respones Body**
 
-## Support
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "iPhone 15 Pro",
+    "description": "Latest iPhone",
+    "price": 25000000,
+    "quantity": 10,
+    "categoryId": 1,
+    "supplierId": 1,
+    "createdBy": 1
+  }
+}
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Get All Item
 
-## Stay in touch
+**Endpoint** : GET `/item`
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+**Response Body**
 
-## License
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "iPhone 15 Pro",
+      "description": "Latest iPhone",
+      "price": 25000000,
+      "quantity": 10,
+      "categoryId": 1,
+      "supplierId": 1,
+      "createdBy": 1
+    },
+    {
+      "id": 2,
+      "name": "MacBook Pro",
+      "description": "Powerful laptop",
+      "price": 35000000,
+      "quantity": 5,
+      "categoryId": 1,
+      "supplierId": 2,
+      "createdBy": 2
+    }
+  ]
+}
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## Update Item
+
+**Endpoint** : PATCH `/item/:id`
+**Request Body**
+
+```json
+{
+  "name": "iPhone 15 Pro Max",
+  "description": "Latest iPhone Pro Max",
+  "price": 27000000,
+  "quantity": 15,
+  "categoryId": 1,
+  "supplierId": 1
+}
+```
+
+**Response Body**
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "iPhone 15 Pro Max",
+    "description": "Latest iPhone Pro Max",
+    "price": 27000000,
+    "quantity": 15,
+    "categoryId": 1,
+    "supplierId": 1,
+    "createdBy": 1
+  }
+}
+```
+
+## Delete item
+
+**Endpoint**: DELETE /item/:id
+**Response Body**
+
+```json
+{
+  "data": true
+}
+```
+
+## Get Supplier Summary
+
+**Endpoint:** GET /item/summary/supplier
+**Response Body**
+
+```json
+{
+  "data": [
+    {
+      "supplierId": 1,
+      "supplierName": "Supplier A",
+      "totalItems": 25
+    },
+    {
+      "supplierId": 2,
+      "supplierName": "Supplier B",
+      "totalItems": 10
+    }
+  ]
+}
+```
+
+## Get Category Summary
+
+**Endpoint:** GET /item/summary/category
+**Response Body**
+
+```json
+{
+  "data": [
+    {
+      "categoryId": 1,
+      "categoryName": "Electronics",
+      "totalItems": 35
+    },
+    {
+      "categoryId": 2,
+      "categoryName": "Clothing",
+      "totalItems": 15
+    }
+  ]
+}
+```
+
+# Category API Spec
+
+## Create Category
+
+**Endpoint**: `POST /category`
+
+**Request Body**:
+
+```json
+{
+  "name": "Electronics",
+  "description": "Kategori barang-barang elektronik"
+}
+```
+
+**Response Body**
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Electronics",
+    "description": "Kategori barang-barang elektronik"
+  }
+}
+```
+
+## Get Category By ID
+
+**Endpoint**: `POST /category/:id`
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Electronics",
+    "description": "Kategori barang-barang elektronik"
+  }
+}
+```
+
+## Get All Categories
+
+**Endpoint:** GET /category
+
+**Response Body**
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Electronics",
+      "description": "Kategori barang-barang elektronik"
+    },
+    {
+      "id": 2,
+      "name": "Fashion",
+      "description": "Kategori pakaian dan aksesoris"
+    }
+  ]
+}
+```
+
+## Delete Categories
+
+**Endpoint:** DELETE /category/:id
+
+**Response Body**
+
+```json
+{
+  "data": true
+}
+```
+
+# Supplier API Spec
+
+## Create Supplier
+
+**Endpoint** : POST `/suppliers`
+
+**Request Body**:
+
+```json
+{
+  "name": "Supplier A",
+  "contactInfo": "supplierA@example.com"
+}
+```
+
+**Response Body**
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Supplier A",
+    "contactInfo": "supplierA@example.com"
+  }
+}
+```
+
+## Get Supplier By ID
+
+**Endpoint :** GET /suppliers/:id
+**Response Body**
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Supplier A",
+    "contactInfo": "supplierA@example.com"
+  }
+}
+```
+
+## Get All Supplier
+
+**Endpoint :** GET /suppliers
+**Response Body**
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Supplier A",
+      "contactInfo": "supplierA@example.com"
+    },
+    {
+      "id": 2,
+      "name": "Supplier B",
+      "contactInfo": "supplierB@example.com"
+    }
+  ]
+}
+```
