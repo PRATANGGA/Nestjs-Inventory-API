@@ -24,7 +24,12 @@ services:
       DATABASE_URL: 'postgresql://postgres:123@db-nest:5432/nest?schema=public'
     networks:
       - app-network
-    command: sh -c "yarn prisma migrate deploy && yarn start:prod"
+    command: |
+      sh -c "
+      yarn prisma migrate deploy &&
+      yarn prisma db seed &&
+      yarn start:prod
+      "
 
 networks:
   app-network:
